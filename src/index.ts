@@ -107,7 +107,7 @@ const deleteUptimeRobotMonitor = async (monitor: UptimeRobotMonitor) => {
     }
 }
 
-const startPlaywright = async () => chromium.launch({headless: false})
+const startPlaywright = async () => chromium.launch({headless: true, args: ['--ignore-certificate-errors']})
 
 const ensureLoggedIn = async (page: Page) => {
     const loginButton = await page.getByText("Login")
@@ -173,7 +173,8 @@ const createMonitorHTTP = async (page: Page, monitor: UptimeRobotMonitor) => {
 const createMonitorKeyword = async (page: Page, monitor: UptimeRobotMonitor) => {
     await page.getByLabel("Monitor Type").selectOption("HTTP(s) - Keyword")
     await page.getByLabel('URL').fill(monitor.url)
-    await page.getByLabel('Keyword').fill(monitor.keyword_value)
+//    await page.getByLabel('Keyword').fill(monitor.keyword_value)
+await page.getByRole('textbox', { name: 'Keyword' }).fill(monitor.keyword_value)
 }
 
 const createMonitorPort = async (page: Page, monitor: UptimeRobotMonitor) => {
